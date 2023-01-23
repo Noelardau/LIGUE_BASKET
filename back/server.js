@@ -7,6 +7,7 @@ let app = require("./expressApp")
 
 // JOUEUR
 
+
 app.post("/addJoueur",(req,res)=>{
     let bd = req.body
     let num = bd.num
@@ -54,14 +55,13 @@ app.post("/deleteJoueur",(req,res)=>{
     })
 })
 
-app.get("/test",(req,res)=>{
+app.post("/test",(req,res)=>{
 
-    bdd.query("SELECT * FROM championnat",(err,data)=>{
+    
 
-        res.send(data)
+        res.send(req.body)
 
 
-    })
 
 
 

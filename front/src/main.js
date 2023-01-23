@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import Vuex from "vuex"
 
+
 // import './assets/main.css'
 import "./assets/semantic/semantic.css"
 import "./assets/style.css"

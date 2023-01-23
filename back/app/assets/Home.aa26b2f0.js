@@ -1,0 +1,1 @@
+import{o as s,c as a}from"./index.552aab32.js";var n=(e,o)=>{const t=e.__vccOpts||e;for(const[c,r]of o)t[c]=r;return t};const _={},f={class:"ui message blue"};function l(e,o){return s(),a("div",f,"Home")}var i=n(_,[["render",l]]);export{i as default};

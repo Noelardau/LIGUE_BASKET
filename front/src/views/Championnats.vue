@@ -8,14 +8,14 @@ import axios from "axios"
 
 var test = ref("dfsf")
 
-onMounted(()=>{
-    axios.get("http://localhost:5000/test").then(response=>{
+// onMounted(()=>{
+//     axios.get("http://localhost:5000/test").then(response=>{
         
-        test.value = response.data
-        // console.log(response.data)
+//         test.value = response.data
+//         // console.log(response.data)
 
-    })
-})
+//     })
+// })
 
 
 let view = (id)=>{
