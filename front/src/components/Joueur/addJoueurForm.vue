@@ -1,6 +1,6 @@
 <template>
 
-    <div class="ui modal">
+    <div class="ui modal add">
 <i class="close icon red"></i>
         <div class="header" align="center">
             Nouveau Joueur
@@ -23,7 +23,8 @@
             </select>
         </div>
 <p align="center">
-    <button class="ui button tiny" @click="add">Ajouter</button>
+    <button class="ui button tiny" @click="add" v-if="mode=='add'">Ajouter</button>
+    <button class="ui button tiny" @click="add" v-else>modifier</button>
 
 </p>
     </div>
@@ -37,6 +38,10 @@
 import { ref } from 'vue';
 import axios from "axios"
 
+let props = defineProps({
+        playerToEdit: Object,
+        mode:String
+    })
 
 
     let nomJoueur = ref("Nom")

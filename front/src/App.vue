@@ -3,10 +3,12 @@ import { RouterLink, RouterView } from 'vue-router'
 
 
 
+
+
 </script>
 
 <template>
-  <div class="ui menu blue">
+  <div class="ui menu blue fixe">
     <RouterLink to="/" class="item" :class="$route.path == '/' ? 'active' : ''">BFF</RouterLink>
     <RouterLink to="/joueurs" class="item" :class="$route.path == '/joueurs' ? 'active' : ''">Joueurs</RouterLink>
     <RouterLink to="/" class="item">Equipes</RouterLink>
@@ -27,9 +29,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style >
 
-.router-link-exacte-active{
-  color:red;
-}
+
 
 
 </style>
