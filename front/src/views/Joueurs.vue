@@ -1,8 +1,8 @@
 <script setup>
 
-import List from "@/components/Joueur/JoueurCrud.vue"
+import Notification from "../components/Notification.vue";
 import addJoueurForm from "@/components/Joueur/addJoueurForm.vue"
-import editJoueurForm from "@/components/Joueur/editJoueurForm.vue"
+
 import { ref } from 'vue';
 
 
@@ -11,57 +11,46 @@ let showForm = ()=>{
     $(".ui.modal.add").modal("show")
 }
 
+let messageNtf = ref({
+    success:true,
+    message:""
+})
+
+let addPlayer = (player,message)=>{
+
+    messageNtf.value = message
+    if(message.success){
+
+
+        list.value = [player,...list.value]
+        
+
+    }
+
+    $(".ui.modal.notification").modal("show")
+
+
+
+}
+
 let list = ref([
 {
-        "nom":"Marco",
-        "prenom":"klark",
-        "dateNaissance":new Date(),
-        "equipe":"ASCUT",
+        "Nom":"Marco",
+        "Prenom":"klark",
+        "DateNaissance":new Date(),
+        "Equipe":"ASCUT",
+        Numero: 12,
         id:45
     },{
-        "nom":"Marco",
-        "prenom":"klark",
+        "Nom":"Marco",
+        "Prenom":"klark",
         "dateNaissance":new Date(),
-        "equipe":"ASCUT",
+        "Equipe":"ASCUT",
+        Numero: 12,
         id:1
-    },{
-        "nom":"Marco",
-        "prenom":"klark",
-        "dateNaissance":new Date(),
-        "equipe":"ASCUT",
-        id:47
-    },{
-        "nom":"Marco",
-        "prenom":"klark",
-        "dateNaissance":new Date(),
-        "equipe":"ASCUT",
-        id:5
-    },{
-        "nom":"Marco",
-        "prenom":"klark",
-        "dateNaissance":new Date(),
-        "equipe":"ASCUT",
-        id:13
     }
 ])
 
-let joueurToEdit = ref({nom:"",dateNaissance:""})
-let editJoueur = (id)=>{
-
-    joueurToEdit.value = list.value.filter(e=> e.id == id)[0]
-    console.log(joueurToEdit.value)
-    
-    $(".ui.modal.edit").modal("show")
-
-    
-}
-
-let saveChange = (player)=>{
-    console.log(player)
-    
-
-    
-}
 
 
 
@@ -70,23 +59,24 @@ let saveChange = (player)=>{
 <template>
 
     <div class="ui header blue">Liste des joueurs</div>
-    <div class="ui form" align="center">
+    <!-- <div class="ui form" align="center">
         <div class="field inline">
             <label for="search"><i class="search icon"></i></label>
             <input type="text" >
         </div>
     </div>
-    
+     -->
     
     <button class="ui button green" @click="showForm"><i class="add icon"></i></button>
         <!-- list -->
         <div class="ui list divided">
         <div class="item ui grid" v-for="j in list">
-            <div class="six column row">
-                <div class="column">{{ j.nom }}</div>
-                <div class="column">{{ j.prenom }}</div>
-                <div class="column">{{ j.dateNaissance}}</div>
-                <div class="column">{{ j.equipe }}</div>
+            <div class="seven column row">
+                <div class="column">{{ j.Nom }}</div>
+                <div class="column">{{ j.Prenom }}</div>
+                <div class="column">{{ j.DateNaissance}}</div>
+                <div class="column">{{ j.Equipe }}</div>
+                <div class="column">{{ j.Numero }}</div>
                 <div class="column"><i class="trash red icon"></i></div>
                 <div class="column" @click="editJoueur(j.id)"><i class="edit icon blue"></i></div>
             </div>
@@ -94,8 +84,9 @@ let saveChange = (player)=>{
     </div>
 
         <!-- list -->
-    <addJoueurForm />
-    <editJoueurForm :playerToEdit="joueurToEdit" @save="saveChange"/>
+    <addJoueurForm @add="addPlayer"/>
+    <Notification :message="messageNtf" />
+    
 
             
 

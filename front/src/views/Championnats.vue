@@ -47,7 +47,7 @@ let addTournoi = (newTournoi,message)=>{
     messageNtf.value = message
     if(message.success){
 
-        
+
         tournois.value = [newTournoi,...tournois.value]
         
 
@@ -61,7 +61,7 @@ let addTournoi = (newTournoi,message)=>{
 </script>
 
 <template>
-<div class="ui header">Les championnats </div>
+<div class="ui header blue">Les championnats </div>
     <div class="ui grid allChampionnat" >
         <div class="ui row">
             <div  class="column ui segment" v-for="chp in tournois">

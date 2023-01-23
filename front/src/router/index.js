@@ -18,7 +18,11 @@ const router = createRouter({
     },
     {
       path:"/match",
-      component:()=>import("@/components/match.vue")
+      component:()=>import("@/components/Match.vue")
+    },
+    {
+      path:"/equipe",
+      component:()=>import("@/views/Equipe.vue")
     }
 
 
