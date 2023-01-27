@@ -1,0 +1,1 @@
+describe joueur; describe rencontre ; describe jouer; describe categorie ; describe effectuer; describe participer; describe tournoi; describe appartenir; 

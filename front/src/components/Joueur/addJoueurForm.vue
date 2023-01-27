@@ -5,15 +5,30 @@
         <div class="header" align="center">
             Nouveau Joueur
         </div>
-    <div class="ui form tiny content">
+        <div class="content">
+            
+            <div class="ui form tiny  grid">
+                <div class="ui row two column">
+            <div class="column">
+
+                <div class="field">
+                    Nom: <input type="text" v-model="newJoueur.NomJoueur">
+                </div>
         <div class="field">
-            Nom: <input type="text" v-model="NomJoueur">
+            Prénoms : <input type="text" v-model="newJoueur.PrenomJoueur">
+        </div> 
+        <div class="field">
+            Numero : <input type="number" v-model="newJoueur.NumJoueur">
         </div>
         <div class="field">
-            Prénoms : <input type="text" v-model="PrenomJoueur">
+            Date de naissance : <input type="date" v-model="newJoueur.DAN">
         </div>
+    </div>
+
+    <div class="column">
+
         <div class="field">
-            Date de naissance : <input type="date" v-model="DateNaissance">
+            CIN: <input type="text" v-model="newJoueur.CIN">
         </div>
         <div class="field">
             Equipe
@@ -22,12 +37,20 @@
                 
             </select>
         </div>
-<p align="center">
-    <button class="ui button tiny" @click="add">Ajouter</button>
-   
-
-</p>
+        <div class="field">
+            Categorie
+            <select name="Categorie" id="Categorie" v-model="newJoueur.EquipeRefEquipe">
+                <option v-for="cate in categorie" :value="cate.idCategorie">{{cate.Categorie}}</option>
+                
+            </select>
+        </div>
+        <p align="center">
+            <button class="ui button tiny green" @click="add">Ajouter</button>
+        </p>
     </div>
+</div>
+</div>
+</div>
     
     
 </div>
@@ -53,10 +76,28 @@ import { ref } from 'vue';
         },
     ]
 
+    let categorie = [{
+        idCategorie:1,
+        Categorie: "U12"
+    },{
+        idCategorie:2,
+        Categorie:"OPEN"
+    }
 
-    let NomJoueur = ref("Nom")
-    let PrenomJoueur = ref("Prenom")
-    let DateNaissance = ref(new Date().getUTCDate())
+
+
+]
+
+
+    let newJoueur =  ref({
+                        'NomJoueur' : "",
+                        'PrenomJoueur' :"",
+                        'NumJoueur' : 10,
+                        'DAN' : "", 
+                        'CIN': "",
+                        'EquipeRefEquipe' : 1,
+                        'CategorieIdCategorie' : 1, 
+                })
 
     let emit = defineEmits(['add'])
     let message = ref({
@@ -66,15 +107,32 @@ import { ref } from 'vue';
 
     let add = ()=>{
         
-        if(NomJoueur.value != "" && PrenomJoueur.value != "" && DateNaissance.value != ""){
+        
+        if(newJoueur.value.NomJoueur != "" && newJoueur.value.PrenomJoueur != "" && newJoueur.value.NumJoueur != "" && newJoueur.value.DAN != "" && newJoueur.value.CIN != ""){
 
-            emit("add",{NomJoueur:NomJoueur.value,PrenomJoueur:PrenomJoueur.value,DateNaissance:DateNaissance.value},message)
+            // document.getElementsByName("equipe").values.forEach(element => {
+            //     if(element.selected){
+                    
+            //         newJoueur.value.EquipeRefEquipe = element.value
+            //     }
+            //  }); 
+             
+            //  document.getElementsByName("categorie").values.forEach(element => {
+            //     if(element.selected){
+                    
+            //         newJoueur.value.CategorieIdCategorie = element.value
+            //     }
+            //  });
+            
+
+
+            emit("add",{NomJoueur:newJoueur.value.NomJoueur,PrenomJoueur:newJoueur.value.PrenomJoueur,DateNaissance:newJoueur.value.DAN,CIN:newJoueur.value.CIN,EquipeRefEquipe:newJoueur.value.EquipeRefEquipe,CategorieIdCategorie:newJoueur.value.CategorieIdCategorie},message.value)
 
         }else{
             message.value.message = "Veuillez remplir tout les champs"
             message.value.success = false
 
-            emit("add",{},message)
+            emit("add",{},message.value)
         }
 
 

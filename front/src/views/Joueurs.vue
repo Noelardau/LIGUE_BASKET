@@ -2,10 +2,11 @@
 
 import Notification from "../components/Notification.vue";
 import addJoueurForm from "@/components/Joueur/addJoueurForm.vue"
+import axios from "axios"
 
 import { ref } from 'vue';
 
-
+axios.defaults.baseURL = "http://localhost:5000"
 //global
 let showForm = ()=>{
     $(".ui.modal.add").modal("show")
@@ -20,9 +21,11 @@ let addPlayer = (player,message)=>{
 
     messageNtf.value = message
     if(message.success){
-
-
-        list.value = [player,...list.value]
+            console.log(player)
+            axios.post("/api.joueur/create",player).then(response=>{
+                console.log(response)
+                list.value = [player,...list.value]
+            })
         
 
     }
@@ -35,18 +38,18 @@ let addPlayer = (player,message)=>{
 
 let list = ref([
 {
-        "Nom":"Marco",
-        "Prenom":"klark",
+        "NomJoueur":"Marco",
+        "PrenomJoueur":"klark",
         "DateNaissance":new Date(),
         "Equipe":"ASCUT",
-        Numero: 12,
+        NumeroJoueur: 12,
         id:45
     },{
-        "Nom":"Marco",
-        "Prenom":"klark",
-        "dateNaissance":new Date(),
+        "NomJoueur":"Marco",
+        "PrenomJoueur":"klark",
+        "DateNaissance":new Date(),
         "Equipe":"ASCUT",
-        Numero: 12,
+        NumeroJoueur: 12,
         id:1
     }
 ])
@@ -70,13 +73,22 @@ let list = ref([
     <button class="ui button green" @click="showForm"><i class="add icon"></i></button>
         <!-- list -->
         <div class="ui list divided">
-        <div class="item ui grid" v-for="j in list">
+        <div class="item ui grid" >
             <div class="seven column row">
-                <div class="column">{{ j.Nom }}</div>
-                <div class="column">{{ j.Prenom }}</div>
+                <div class="column ui header tiny">Nom</div>
+                <div class="column ui header tiny">Prénom(s)</div>
+                <div class="column ui header tiny">Date de naissance</div>
+                <div class="column ui header tiny">Equipe</div>
+                <div class="column ui header tiny">Numero </div>
+                <div class="column ui header tiny"></div>
+                <div class="column ui header tiny"></div>
+            </div>
+            <div class="seven column row" v-for="j in list">
+                <div class="column">{{ j.NomJoueur }}</div>
+                <div class="column">{{ j.PrenomJoueur }}</div>
                 <div class="column">{{ j.DateNaissance}}</div>
                 <div class="column">{{ j.Equipe }}</div>
-                <div class="column">{{ j.Numero }}</div>
+                <div class="column">{{ j.NumeroJoueur }}</div>
                 <div class="column"><i class="trash red icon"></i></div>
                 <div class="column" @click="editJoueur(j.id)"><i class="edit icon blue"></i></div>
             </div>

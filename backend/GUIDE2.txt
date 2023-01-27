@@ -1,0 +1,61 @@
+TOURNOI 
+
+    1 - Create : 
+        POST : /api.tournoi/create
+        Content-type = JSON
+        body :
+            {
+                'NomTournoi' : string required, 
+                'DateDebutTournoi' : string (yyyy-mm-dd) required, 
+                'DateFinTournoi' : string (yyyy-mm-dd) required , 
+                'LieuTournoi' : string required 
+            }
+
+        
+        response : 
+            - success : 
+                Content-type : JSON
+
+                body : 
+                    {
+                        'LieuTournoi' : string , 
+                        'LieuTournoi' : string ,
+                        'LieuTournoi' : string ,
+                        'LieuTournoi' : string , 
+                        'Equipes': [
+                            {
+                                'NomEquipe' : string,
+                                'RefEquipe' : int
+                            } , 
+                            // ... equipe hafa (liste)
+                        ]
+                    }
+
+            - failure 
+
+        2 - Read : 
+
+                GET : /api.tournoiNid=${RefTournoi}
+
+                response : *
+
+                    - success : 
+                                    
+                        Content-type : JSON
+
+                        Body : 
+                            {
+                                'LieuTournoi' : string , 
+                                'LieuTournoi' : string ,
+                                'LieuTournoi' : string ,
+                                'LieuTournoi' : string , 
+                                'Equipes': [
+                                                {
+                                                    'NomEquipe' : string,
+                                                '   RefEquipe' : int
+                                                 }                        , 
+                                    // ... equipe hafa (liste)
+                                            ]
+                    }
+
+            - failure 

@@ -1,0 +1,221 @@
+GENERAL : 
+        Response : 
+                    format : JSON
+                    type : _* Success means { "status" : "OK" , //another fields}
+                           _* Failure means { "status" : "KO" , "Error" : "message cause de l'erreur"}  
+
+
+
+I - TOURNOI
+===========
+
+1) Create : 
+
+    => POST : /api.tournoi/create
+             Content-type : application/json
+             body : {
+                            "NomTournoi" : String, (required)
+                            'DateDebutTournoi" : String(yyyy-mm-dd), (required)
+                            "DateFinTournoi" : String(yyyy-mm-dd), (required)
+                            "LieuTournoi" : String (required)
+             }
+    => response : - a) success : {
+                        'Status' : 'OK',
+                        'Body' : {
+                            "NomTournoi" : String, 
+                            'DateDebutTournoi" : String(yyyy-mm-dd),
+                            "DateFinTournoi" : String(yyyy-mm-dd),
+                            "LieuTournoi" : String
+                        }
+                    }
+                        - b) failure 
+                    
+
+2) Read : 
+
+    => GET : /api.tournoi?id=${RefTournoi}
+    => response : - a) success : {
+                        'Status' : 'OK' , 
+                        'Body' :{
+                            "NomTournoi": "Manabe 2023",
+                            "RefTournoi": 3,
+                            "DateDebutTournoi": "2023-01-26",
+                            "DateFinTournoi": "2023-04-12",
+                            "LieuTournoi": "Fianarantsoa",
+                            "EQUIPES": [
+                                {
+                                    "RefEquipe": int,
+                                    "NomEquipe": string,
+                                    "PARTICIPER": {
+                                        "createdAt": string(yyyy-mm-dd),
+                                        "updatedAt": string(yyyy-mm-dd),
+                                        "TournoiRefTournoi": int,
+                                        "EQUIPERefEquipe": int
+                                 }
+                            }
+                            ]
+                    }
+                    }
+                  - b) failure 
+
+
+EQUIPE :
+
+1 Read: 
+        => GET /api.equipe?id=${RefEquipe}
+
+        response : JSON
+            - succes : 
+                {
+                    'RefEquipe' : int
+                    'NomEquipe' : Sring , 
+                    'Origine' : String,
+                    'Contact' : String ,
+                    'Coaches'  : [
+                        {
+                            'NomCoach' : String,
+                            'ContactCoah' : string,
+                            'CINCoach' : string, 
+                            'idCoach' : int , 
+                            'EquipeRefEquipe' : int
+                        },
+                        //mety miverina indroa si manana coache roa
+                    ]
+                }
+            - failure
+
+2 - Create 
+
+        => POST /api.equipe/create
+            body : JSON
+                {
+                    'NomEquipe' : Sring required, 
+                    'Origine' : String,
+                    'Contact' : String required,
+                    'Coaches'  : [
+                        {
+                            'NomCoach' : String required,
+                            'ContactCoah' : string,
+                            'CINCoach' : string required, 
+                        },
+                        //mety miverina indroa si manana coache roa
+                    ]
+                }
+
+            response : JSON
+                - succes : 
+                    {
+                        'RefEquipe' : int
+                        'NomEquipe' : Sring , 
+                        'Origine' : String,
+                        'Contact' : String ,
+                        'Coaches'  : [
+                            {
+                                'NomCoach' : String,
+                                'ContactCoah' : string,
+                                'CINCoach' : string, 
+                                'idCoach' : int , 
+                                'EquipeRefEquipe' : int
+                            },
+                            //mety miverina indroa si manana coache roa
+                        ]
+                    }
+                - failure
+
+3 - Liste de toutes les equipes
+
+    GET /api.equipe/allTeams
+        response : JSON
+          [
+            {
+                //equipe 1
+                'NomEquipe': String, 
+                'Origine': String, 
+                'RefEqiupe' : int 
+            }, 
+            ... //another team , ...
+          ]
+
+
+
+JOUEUR
+
+      1 - read : GET /api.joueur?id=${IDJoueur}
+        response : JSON 
+                    -success : 
+                    {
+                        'IDJoueur' : int,
+                        'NomJoueur' : string,
+                        'PrenomJoueur' :string,
+                        'NumJoeur' : int,
+                        'DAN' : String (yyyy-mm-dd), 
+                        'CIN': string?,
+                        'EquipeRefEquipe' : int,
+                        'CategorieIdCategorie' : int, 
+                        'Equipe' : {
+                            'NomEquipe' : string
+                        }, 
+                        'Categorie' : {
+                            Label : (String) enum('U10','U12','U14','U16','U18','U20','U22','U24','N1B','N1A','VT','OPEN')
+                        }
+                    }
+
+                    -failure 
+
+2 - create : 
+                POST : /api.joueur/create
+
+                body : JSON
+
+                {
+                        'NomJoueur' : string,
+                        'PrenomJoueur' :string required,
+                        'NumJoeur' : int required,
+                        'DAN' : String (yyyy-mm-dd) required, 
+                        'CIN': string?,
+                        'EquipeRefEquipe' : int required,
+                        'CategorieIdCategorie' : int required, 
+                }
+
+                response : JSON 
+                    - success : 
+                        {
+
+                        }
+                    - failure 
+
+RENCONTRE
+
+
+    1 - Read : 
+            GET : /api.rencontre?id=${idRencontre}
+
+            response : json
+               - success 
+               {
+                'idRencontre' : int,
+                'LieuRencontre' : string,
+                'DateRencontre' : string (yyyy-mm-dd),
+                'HeureRencontre' : string (HHHH:MM:SS), 
+                'CategorieidCategorie' : int, 
+                'TournoiRefTournoi' : int,
+                'Categorie' : {
+                    'Label' : String (enum('U10','U12','U14','U16','U18','U20','U22','U24','N1B','N1A','VT','OPEN'))
+                }, 
+                'Equipes' : [
+                    {
+                        'RefEquipe': int , 
+                        'NomEquipe' : string
+                    }, 
+                    {
+                        'RefEquipe': int , 
+                        'NomEquipe' : string
+                    }
+                ] , 
+                'Tournoi' : {
+                    'NomTournoi' : string
+                }
+
+               }
+
+               - failure

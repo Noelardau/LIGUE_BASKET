@@ -49,7 +49,7 @@ let message = ref({
 )
 let add = ()=>{
 
-    if(NomTournoi.value != "" && DateDebutTournoi!= "",DateFinTournoi != "", LieuTournoi != ""){
+    if(NomTournoi.value != "" && DateDebutTournoi.value!= "",DateFinTournoi.value != "", LieuTournoi.value != ""){
 
         emit("addTournoi",{NomTournoi:NomTournoi.value,DateDebutTournoi:DateDebutTournoi.value,DateFinTournoi:DateFinTournoi.value,LieuTournoi:LieuTournoi.value},message.value)
         

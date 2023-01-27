@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const body =  {
+    RefTournoi : 1,
+    NomTournoi : 'Manabe 2023', 
+    DateDebutTournoi : "2023-01-26",
+    DateFinTournoi : "2023-04-12",
+    LieuTournoi : "Fianarantsoa"
+}
+
+fetch('/api.tournoi/create',{
+    method : 'POST',
+    headers : {
+        'Content-type': 'application/json'
+    }, 
+    body : JSON.stringify(body)
+})
+.then(response => response.json())
+.then(data => console.log(data))
+    </script>
+</body>
+</html>

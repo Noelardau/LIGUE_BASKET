@@ -23,6 +23,19 @@ const router = createRouter({
     {
       path:"/equipe",
       component:()=>import("@/views/Equipe.vue")
+    },
+    {
+      path:"/championnat/:id",
+      component:()=>import("@/views/AllMatch.vue")
+    },
+    {
+      path:"/match/:idEquipe1/:idEquipe2/:idTournoi/:idMatch",
+      component:()=>import("@/views/Match.vue")
+    }
+    ,
+    {
+      path:"/test",
+      component:()=>import("@/views/Test.vue")
     }
 
 
