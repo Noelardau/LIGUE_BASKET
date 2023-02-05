@@ -22,9 +22,16 @@ onMounted(()=>{
     <RouterLink to="/test" class="item" :class="$route.path == '/championnats' ? 'active' : ''">Test</RouterLink>
   </div>
 <div class="ui main container">
+<keep-alive>
 
-  <RouterView></RouterView>
+  <RouterView v-slot="{component}">
+  
 
+
+    
+  </RouterView>
+  
+</keep-alive>
 </div>
 
 

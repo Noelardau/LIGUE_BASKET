@@ -119,7 +119,7 @@ import { ref } from 'vue';
             
             console.log(newJoueur)
 
-            emit("add",{NomJoueur:newJoueur.value.NomJoueur,PrenomJoueur:newJoueur.value.PrenomJoueur,DateNaissance:newJoueur.value.DAN,CIN:newJoueur.value.CIN,EquipeRefEquipe:newJoueur.value.EquipeRefEquipe,CategorieIdCategorie:newJoueur.value.CategorieIdCategorie},message.value)
+            emit("add",{NomJoueur:newJoueur.value.NomJoueur,PrenomJoueur:newJoueur.value.PrenomJoueur,DAN:newJoueur.value.DAN,CIN:newJoueur.value.CIN,EquipeRefEquipe:newJoueur.value.EquipeRefEquipe,CategorieIdCategorie:newJoueur.value.CategorieIdCategorie,NumJoueur:newJoueur.value.NumJoueur},message.value)
 
         }else{
             message.value.message = "Veuillez remplir tout les champs"
