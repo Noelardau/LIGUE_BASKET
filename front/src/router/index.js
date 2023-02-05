@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path:"/",
-      component:()=>import("@/views/Home.vue")
+      component:()=>import("@/views/Homepage.vue")
     },
     {
       path:"/joueurs",
@@ -18,7 +18,7 @@ const router = createRouter({
     },
     {
       path:"/match",
-      component:()=>import("@/components/Match.vue")
+      component:()=>import("@/views/Match.vue")
     },
     {
       path:"/equipe",

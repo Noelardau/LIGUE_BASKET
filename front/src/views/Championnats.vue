@@ -11,31 +11,17 @@ import { RouterLink } from 'vue-router';
 
 axios.defaults.baseURL = "http://localhost:5000"
 
+var tournois = ref([
+    ])
 onMounted(()=>{
     console.log("getTournoi")
-    axios.get("/api.tournoi/all").then(response=> console.log(response.data))
+    axios.get("/api.tournoi/all").then(response=> {
+        tournois.value = JSON.parse(response.data).Body.reverse()
+        console.log(JSON.parse(response.data))
+    
 })
-var tournois = ref([
-{
-        refTournoi:1,
-        NomTournoi:"National",
-        DateDebutTournoi:"2022-01-12",
-        DateFinTournoi: "2022-01-13",
-        LieuTournoi: "Tananarive"
-    },{
-        refTournoi:2,
-        NomTournoi:"Veloma",
-        DateDebutTournoi:"2022-01-12",
-        DateFinTournoi: "2022-01-13",
-        LieuTournoi: "Tananarive"
-    },{
-        refTournoi:3,
-        NomTournoi:"Printemps",
-        DateDebutTournoi:"2022-01-12",
-        DateFinTournoi: "2022-01-13",
-        LieuTournoi: "Tananarive"
-    },
-])
+ })
+
 
 
 
@@ -60,9 +46,11 @@ let addTournoi = (newTournoi,message)=>{
 // console.log(trn)
 console.log(newTournoi)
         axios.post("/api.tournoi/create",newTournoi).then(response=>{
-            console.log(response.data)
+            // console.log(response.data)
+            location.reload()
+            // newTournoi.RefTournoi = tournois.value.length
+            // tournois.value = [newTournoi,...tournois.value]
         })
-        tournois.value = [newTournoi,...tournois.value]
         
 
     }
@@ -78,13 +66,13 @@ console.log(newTournoi)
 <div class="ui header blue">Les Tournois  </div>
     <div class="ui grid allChampionnat" >
         <div class="ui row">
-            <RouterLink  class="column ui segment" :to="`/championnat/${chp.refTournoi}`" v-for="chp in tournois">
+            <div class="column" align="center" style="display:flex;align-items: center;" @click="showAddForm">Nouveau tournoi... <i class="add icon large"></i></div>
+            <RouterLink  class="column ui segment" :to="`/championnat/${chp.RefTournoi}`" v-for="chp in tournois">
                 <div class="ui header">{{ chp.NomTournoi}}</div>
                du <strong>{{ chp.DateDebutTournoi}}</strong> <br> au
                 <strong>{{ chp.DateFinTournoi}}</strong> <br>                
                 <div class="ui header tiny">{{ chp.LieuTournoi}}</div>                
             </RouterLink>
-            <div class="column" align="center" style="display:flex;align-items: center;" @click="showAddForm"> <i class="add icon large"></i></div>
         </div>
     </div>
 

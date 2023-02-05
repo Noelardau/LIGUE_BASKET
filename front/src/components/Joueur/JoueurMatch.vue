@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from '@vue/reactivity';
-import { ref } from 'vue';
+import { onUpdated, ref, watchEffect, } from 'vue';
+import Timer from "@/components/Timer.vue"
 
 
     
@@ -10,9 +11,21 @@ import { ref } from 'vue';
     player: {
         type: Object, default:{}
     },
-    
+    testUpdate:{
+        type:String
+    },isPlayed:{
+        type: Boolean, default:false
+    }
 })
 
+// timer
+
+
+
+
+
+
+// timer
 
 
 
@@ -26,10 +39,14 @@ let stat = ref( {
     block:0,
     tirReussi:0,
     tirRate:0,
-    perteBall:0
+    perteBall:0,
+    tempsJoue:"00:00:00"
+
 
     
 })
+
+
 
 if(props.player.state == undefined) props.player.state = stat
 
@@ -38,12 +55,11 @@ if(props.player.state == undefined) props.player.state = stat
 
     let selectedId = ref(0)
 
-    let select = (id)=>{
-        console.log(id)
-        selectedId.value= id
+    let select = (player)=>{
+    
+        selectedId.value= player
         emit('setPlayer',props.player)
     }
-
 
 
   let emit =   defineEmits(['setPlayer'])
@@ -70,12 +86,19 @@ if(props.player.state == undefined) props.player.state = stat
                <p :class="player.id == selectedId ? 'select' : ''"> {{ player.name }}</p>
             </div>
             <div class="column">
-                00:00
+                <Timer :onSet="props.player.onSet" :isPlayed="isPlayed" :tempsJoue = "stat.tempsJoue"/>
+                 
             </div>
             <div class="column">
-                        <i class="up arrow green icon" v-if="!player.onSet" @click="faireJouer(player)"></i>                
-                        <i class="down arrow red icon" @click="mettreAuBanc(player)" v-else></i>                
-
+                <div class="ui button tiny" @click="faireJouer(player)" align="center" v-if="!player.onSet" > 
+                    
+                    <i class="up arrow green icon" ></i>
+                </div>
+                
+                <div class="ui button tiny" align="center" @click="mettreAuBanc(player)" v-else>
+                    <i class="down arrow red icon" ></i>                
+                </div>
+                    
             </div>
         </div>
          

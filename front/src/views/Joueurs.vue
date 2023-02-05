@@ -4,13 +4,22 @@ import Notification from "../components/Notification.vue";
 import addJoueurForm from "@/components/Joueur/addJoueurForm.vue"
 import axios from "axios"
 
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 axios.defaults.baseURL = "http://localhost:5000"
 //global
 let showForm = ()=>{
     $(".ui.modal.add").modal("show")
 }
+let equipe = ref([])
+onMounted(()=>{
+    axios.get("/api.equipe/allTeams").then(response=>{
+        console.log(response)
+        equipe.value = response.data.Body
+    })
+
+
+})
 
 let messageNtf = ref({
     success:true,
@@ -96,7 +105,7 @@ let list = ref([
     </div>
 
         <!-- list -->
-    <addJoueurForm @add="addPlayer"/>
+    <addJoueurForm @add="addPlayer" :equipe="equipe"/>
     <Notification :message="messageNtf" />
     
 

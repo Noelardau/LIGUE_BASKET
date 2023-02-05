@@ -20,6 +20,8 @@
     </div>
 </div>
 
+<AddMatchForm/>
+
 
 </template>
 
@@ -28,8 +30,12 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
+import AddMatchForm from "@/components/match/AddMatchForm.vue"
 
 
+onMounted(()=>{
+    $(".ui.modal.Match").modal("show")
+})
 
 // let tournoiName = useRoute().params.nomTournoi
 let idTournoi = useRoute().params.id

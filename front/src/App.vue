@@ -17,8 +17,8 @@ onMounted(()=>{
       <i class="home icon"></i>
     </RouterLink>
     <RouterLink to="/joueurs" class="item" :class="$route.path == '/joueurs' ? 'active' : ''">Joueurs</RouterLink>
-    <RouterLink to="/equipe" class="item">Equipes</RouterLink>
-    <RouterLink to="/championnats" class="item" :class="$route.path == '/championnats' ? 'active' : ''">Tournoi</RouterLink>
+    <RouterLink to="/equipe" class="item" :class="$route.path == '/equipe' ? 'active' : ''">Equipes</RouterLink>
+    <RouterLink to="/championnats" class="item" :class="$route.path == '/championnats' || $route.path == `/championnat/${$route.params.id}` ? 'active' : ''">Tournoi</RouterLink>
     <RouterLink to="/test" class="item" :class="$route.path == '/championnats' ? 'active' : ''">Test</RouterLink>
   </div>
 <div class="ui main container">

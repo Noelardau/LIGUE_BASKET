@@ -31,15 +31,15 @@
             CIN: <input type="text" v-model="newJoueur.CIN">
         </div>
         <div class="field">
-            Equipe
-            <select name="equipe" id="equipe">
-                <option v-for="eq in equipe" :value="eq.RefEquipe">{{eq.NomEquipe}}</option>
+            Equipe {{ newJoueur.EquipeRefEquipe }}
+            <select name="equipe" id="equipe" v-model="newJoueur.EquipeRefEquipe">
+                <option v-for="eq in props.equipe" :value="eq.RefEquipe">{{eq.NomEquipe}}</option>
                 
             </select>
         </div>
         <div class="field">
-            Categorie
-            <select name="Categorie" id="Categorie" v-model="newJoueur.EquipeRefEquipe">
+            Categorie{{ newJoueur.CategorieIdCategorie }}
+            <select name="Categorie" id="Categorie" v-model="newJoueur.CategorieIdCategorie">
                 <option v-for="cate in categorie" :value="cate.idCategorie">{{cate.Categorie}}</option>
                 
             </select>
@@ -61,6 +61,11 @@
 import { ref } from 'vue';
 
 
+    let props = defineProps({
+        equipe: {
+            type:Array
+        }
+    })
 
 
     let equipe = [
@@ -95,8 +100,8 @@ import { ref } from 'vue';
                         'NumJoueur' : 10,
                         'DAN' : "", 
                         'CIN': "",
-                        'EquipeRefEquipe' : 1,
-                        'CategorieIdCategorie' : 1, 
+                        'EquipeRefEquipe' : '',
+                        'CategorieIdCategorie' : "", 
                 })
 
     let emit = defineEmits(['add'])
@@ -110,21 +115,9 @@ import { ref } from 'vue';
         
         if(newJoueur.value.NomJoueur != "" && newJoueur.value.PrenomJoueur != "" && newJoueur.value.NumJoueur != "" && newJoueur.value.DAN != "" && newJoueur.value.CIN != ""){
 
-            // document.getElementsByName("equipe").values.forEach(element => {
-            //     if(element.selected){
-                    
-            //         newJoueur.value.EquipeRefEquipe = element.value
-            //     }
-            //  }); 
-             
-            //  document.getElementsByName("categorie").values.forEach(element => {
-            //     if(element.selected){
-                    
-            //         newJoueur.value.CategorieIdCategorie = element.value
-            //     }
-            //  });
             
-
+            
+            console.log(newJoueur)
 
             emit("add",{NomJoueur:newJoueur.value.NomJoueur,PrenomJoueur:newJoueur.value.PrenomJoueur,DateNaissance:newJoueur.value.DAN,CIN:newJoueur.value.CIN,EquipeRefEquipe:newJoueur.value.EquipeRefEquipe,CategorieIdCategorie:newJoueur.value.CategorieIdCategorie},message.value)
 
