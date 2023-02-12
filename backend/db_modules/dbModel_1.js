@@ -110,8 +110,8 @@ class EFFECTUER extends Model {}
 EFFECTUER.init({}, {sequelize});
 
 
-EQUIPE.hasMany(Joueur,{uniqueKey: false});
-Joueur.belongsTo(EQUIPE,{uniqueKey: false});
+EQUIPE.hasMany(Joueur);
+Joueur.belongsTo(EQUIPE);
 RENCONTRE.belongsToMany(EQUIPE, {through : EFFECTUER, uniqueKey: false});
 EQUIPE.belongsToMany(RENCONTRE, {through : EFFECTUER, uniqueKey: false});
 
@@ -187,7 +187,8 @@ Coach.init({
 EQUIPE.hasMany(Coach);
 Coach.belongsTo(EQUIPE);
 
-sequelize.sync({alter : true});
+// sequelize.sync({alter : true});
+sequelize.sync();
 
 // Exports 
 exports.Appartenir = APPARTENIR ;

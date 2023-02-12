@@ -34,30 +34,29 @@ router.get('/', async function(req, res, next) {
 
 router.post('/create', async function(req, res, next) {
     try {
-        if(!(req.body.NumJoueur && req.body.PrenomJoueur.trim() && req.body.DAN.trim() && req.body.EquipeRefEquipe && req.body.CategorieIdCategorie)) {
+        if(!(req.body.NumJoueur && req.body.PrenomJoueur && req.body.DAN && req.body.EquipeRefEquipe && req.body.CategorieIdCategorie)) {
             throw new Error('Mandatory fields should be provided')
         } else {
             await db.authenticate() ; 
             const joueur = await Joueur.create({
-                        PrenomJoueur : req.body.PrenomJoueur,
                         NomJoueur : req.body.NomJoueur,
-                        NumJoueur : +req.body.NumJoueur,
+                        PrenomJoueur : req.body.PrenomJoueur,
+                        NumJoeur : +req.body.NumJoeur,
                         DAN : req.body.DAN, 
                         CIN: req.body.CIN,
-                        EQUIPERefEquipe : +req.body.EquipeRefEquipe,
+                        EquipeRefEquipe : +req.body.EquipeRefEquipe,
                         CategorieIdCategorie : +req.body.CategorieIdCategorie, 
             }); 
     
             const joueurObject = await Joueur.findOne({
                 order : [['IDJoueur', 'DESC']], 
+                include : [
+                    { model : Equipe, attributes : ['NomEquipe']},
+                    {model : Categorie, attributes : ['Label']}
+                ]
             })
-            const response = {
-                Status : 'OK',
-                Body : {
-                    IDJoueur : joueurObject.IDJoueur
-                }
-            }
-            res.json(JSON.stringify(response));
+    
+            res.json(JSON.stringify(joueurObject, null, 4));
         }
     } catch (error) {
         next(new Error(error.message))

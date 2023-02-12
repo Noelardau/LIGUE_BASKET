@@ -1,6 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const { Rencontre, Equipe, Tournoi, Categorie, db, Joueur, Jouer } = require('../db_modules/dbModel');
+const { response } = require('./tournoi');
 const router = express();
 
 router.get('/', async function(req, res, next) {
@@ -41,14 +42,14 @@ router.get('/', async function(req, res, next) {
 
 
 router.post('/create', async function(req, res, next){
-    if( req.body.DateRencontre && req.body.HeureRencontre && req.body.CategorieIdCategorie && req.body.LieuRencontre && req.body.TournoiRefTournoi) {
+    if( req.body.DateRencontre && req.body.HeureRencontre && req.body.CategorieIdCategorie && req.body.LieuRencontre) {
         await db.authenticate(); 
         // creer l'objet rencontre
         const rencontre  =  await Rencontre.create({
-            TournoiRefTournoi : +req.body.TournoiRefTournoi , 
             DateRencontre : req.body.DateRencontre,
             HeureRencontre : req.body.HeureRencontre,
             LieuRencontre : req.body.LieuRencontre,
+            TournoiRefTournoi : req.body.TournoiRefTournoi,
             CategorieIdCategorie : +req.body.CategorieIdCategorie
         }) ; 
 
@@ -94,25 +95,13 @@ router.post('/create', async function(req, res, next){
 
 
         // tous les inserer dans la table JOUER pour qu-ils participent dans la rencontre en question
-        AllPlayersID.forEach(async function(item){
+        for (let index = 0; index < AllPlayersID.length; index++) {
             const jouer = await Jouer.create({
-                JoueurIDJoueur : item,
-                RENCONTREIdRencontre : idRencontre
+                JoueurIDJoueur : +(AllPlayersID[index]),
+                RENCONTREIdRencontre : +idRencontre
             })
-        }) 
-
-        // const AllPlayersForThisGame = await rencontre.findOne({
-        //     where : {
-        //         idRencontre : idRencontre
-        //     },
-        //     include : {
-        //         model : Jouer,
-        //         include : {
-        //             model : Joueur,
-        //             attributes : ['NomJoueur','PrenomJoueur']
-        //         }
-        //     }
-        // })
+            
+        }
 
         const response = {
             Status : 'OK', 
@@ -128,49 +117,10 @@ router.post('/create', async function(req, res, next){
     }
 })
 
-async function createJouer() {
-        const jouer = await Jouer.create({
-            JoueurIDJoueur : +(AllPlayersID[index]),
-            RENCONTREIdRencontre : +idRencontre
-        })
-}
+
 module.exports = router;
 
 
 // creer le tournoi
 // alimenter la table jouer
     // [all players whith ClassUp]
-
-
-    // async function CreateTournoi() {
-    //     // verifier les required
-    //     // tables concernés : effectuer jouer rencontre
-    //     // insert into rencontre
-    //     // insert into effectuer
-    //     // insert into jouer
-
-    //     if()
-    // }
-
-    // async function InsertIntoRencontre() {
-    //     // HeureRencontre
-    //     // DateRencontre
-    //     // TorunoiRefTournoi
-    //     // CategorieIdCategorie
-    //     // LieuRencontre
-
-    //         const rencontre  =  await Rencontre.create({
-    //             TournoiRefTournoi : req.body.TournoiRefTournoi , 
-    //             DateRencontre : req.body.DateRencontre,
-    //             HeureRencontre : req.body.HeureRencontre,
-    //             LieuRencontre : req.body.LieuRencontre,
-    //             CategorieIdCategorie : +req.body.CategorieIdCategorie
-    //         }) ; 
-
-    //         const idRencontre = await Rencontre.findOne({
-    //             order : [['idRencontre','DESC']]
-    //         })
-
-    //         return idRencontre.idRencontre;
-
-    // }
