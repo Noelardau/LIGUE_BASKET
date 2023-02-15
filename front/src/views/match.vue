@@ -94,12 +94,7 @@ export default {
     name: "Match",
     components:{JoueurMatch,Timer},
     mounted(){
-
-        // console.log(this.$refs)
-
-        // Object.values(this.$refs).forEach(e=>{
-        //         e.play
-        // })
+// recuperation des données utile venant du backend!!
 
         axios.get(`/api.rencontre?id=${this.$route.params.idMatch}`).then(response=>console.log(JSON.parse(response.data).Body))
 
@@ -109,12 +104,13 @@ export default {
         return {
             idTournoi: this.$route.params.idTournoi
             , selectedId:0,
-            matchEnd:false,
             h:0,
             min:0,
             sec:10,
             playPause:false
             ,
+            scoreEquipe1:0,
+            scoreEquipe2:0,
             Equipe1:[{
         name: "CJ",
         nb:10,
@@ -137,18 +133,59 @@ export default {
         nb:11,
         id:100,
         onSet:false
+    },{
+        name:"jkdjf",
+        nb:12,
+        id:100,
+        onSet:false
+    },{
+        name:"jkdjf",
+        nb:13,
+        id:100,
+        onSet:false
+    },{
+        name:"jkdjf",
+        nb:13,
+        id:100,
+        onSet:false
+    },{
+        name:"jkdjf",
+        nb:14,
+        id:100,
+        onSet:false
+    },{
+        name:"jkdjf",
+        nb:15,
+        id:100,
+        onSet:false
+    },{
+        name:"jkdjf",
+        nb:16,
+        id:100,
+        onSet:false
+    },{
+        name:"jkdjf",
+        nb:17,
+        id:100,
+        onSet:false
     }],
     selectedPlayer : {},
-    statPlayerSelected : {}
+    statPlayerSelected : {},
+    refEquipe:0
+    
+
+
+
         }
     },
 
 
     methods:{
         
-getSelectedPlayer(player){
-    
+getSelectedPlayer(player,refEquipe){
+    console.log(refEquipe)
     this.selectedPlayer = player
+    this.idEquipeSelected = refEquipe
     this.statPlayerSelected = player.state
 },
 
@@ -163,29 +200,69 @@ faireJouer(player){
 
 
 addOnePts(stat){
+    if(this.idEquipeSelected== 1) this.scoreEquipe1 ++
+    else this.scoreEquipe2 ++
     stat.onePts ++
   },
   removeOnePts(stat){
-stat.onePts --
+    if(this.idEquipeSelected== 1) this.scoreEquipe1 --
+    else this.scoreEquipe2 --
+    stat.onePts --
   },
 
 
 addTwoPts(stat){
-    stat.TwoPts ++
+    if(this.idEquipeSelected== 1) this.scoreEquipe1 +=2
+    else this.scoreEquipe2 +=2
+    stat.twoPts ++
   },
   removeTwoPts(stat){
-stat.TwoPts --
+    if(this.idEquipeSelected== 1) this.scoreEquipe1 -=2
+    else this.scoreEquipe2 -=2
+    stat.twoPts --
+  },
+
+  addThreePts(stat){
+    if(this.idEquipeSelected== 1) this.scoreEquipe1 +=3
+    else this.scoreEquipe2 +=3
+    stat.threePts ++
+  },
+  
+  removeThreePts(stat){
+    if(this.idEquipeSelected== 1) this.scoreEquipe1 -=3
+    else this.scoreEquipe2 -=3
+    stat.threePts --
+  },
+  addBlock(stat){
+    stat.block ++
+  },
+
+  removeBlock(stat){
+    stat.block --
+  },
+
+  addPasseD(stat){
+    stat.passeD ++
+  },
+  removePasseD(stat){
+    stat.passeD --
+  },
+
+  removeDuel(stat){
+    stat.duel--
+  },
+  addDuel(stat){
+    stat.duel++
   },
 
 
-  start(){
-      this.matchEnd = !this.matchEnd
-      console.log(this.matchEnd)
+
+  start(){      
     this.playPause = !this.playPause
   }
     },
     test(){
-        alert("okkkk mother fuccker")
+        alert("okkkk mother fucker")
     }
 
 
@@ -207,26 +284,27 @@ stat.TwoPts --
     
     <div class="ui grid">
 
-        <RouterLink :to="`/championnat/${idTournoi}`" ><i class="arrow left icon"></i>voir les autres Matchs..</RouterLink> <br><br>        
-<Timer ref="tm" :isPlayed="playPause" :onSet="true" /> <div class="ui button" @click="start">play</div>
+        <RouterLink :to="`/championnat/${idTournoi}`" ><i class="arrow left icon"></i>voir les autres Matchs..</RouterLink> <br><br>    
+        
         <div class="three column row">
             <div class="column">
                 <div class="ui header huge">Equipe 1 </div>
+                <div class="ui header huge" align="center">{{ scoreEquipe1 > 9 ? scoreEquipe1 : "0"+scoreEquipe1 }}</div>
                 Sur terrain: 
                 <div class="ui list divided green segment" >
                     
                     <div class="item" v-for="player in Equipe1.filter(e=>e.onSet == true)">
 
-                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" />
+                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" :refEquipe="1"/>
                     </div>
                 
             </div> 
             Sur les bancs:
-            <div class="ui list divided red segment ">
+            <div class="ui list divided red segment player">
                     
                     <div  v-for="player in Equipe1.filter(e=>e.onSet == false)">
 
-                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause"/>
+                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" :refEquipe="1"/>
                     </div>
                 
             </div>
@@ -239,6 +317,10 @@ stat.TwoPts --
                     {{ selectedPlayer.name }} <br>
                     {{ selectedPlayer.nb }}
                 </div>
+                <p align="center">
+            
+            <Timer ref="tm" :isPlayed="playPause" :onSet="true" /> <div class="ui button" @click="start">play</div>
+        </p>    
                 <div class="ui grid">
                 
                 <div class="three column row">
@@ -262,8 +344,8 @@ stat.TwoPts --
                 <div class="ui segment column">
                     <div class="ui tiny header" align="center">3 pts</div>
                     <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removeThreePts"> - </button>
-                         <button class="ui button tiny" @click="addThreePts">+</button>
+                        <button class="ui button tiny" @click="removeThreePts(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addThreePts(statPlayerSelected)">+</button>
                     </div>
                     <p align="center">{{ statPlayerSelected.threePts }}</p>
                 </div>
@@ -279,8 +361,8 @@ stat.TwoPts --
                     <div class="ui segment column">
                         <div class="ui header tiny">Passe D</div>
                         <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removePasseD"> - </button>
-                         <button class="ui button tiny" @click="addPasseD">+</button>
+                        <button class="ui button tiny" @click="removePasseD(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addPasseD(statPlayerSelected)">+</button>
                          
                         </div>
                         <p align="center">{{ statPlayerSelected.passeD }}</p>
@@ -289,8 +371,8 @@ stat.TwoPts --
                     <div class="ui segment column">
                     <div class="ui tiny header" align="center">Duel</div>
                     <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removeDuel"> - </button>
-                         <button class="ui button tiny" @click="addDuel">+</button>
+                        <button class="ui button tiny" @click="removeDuel(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addDuel(statPlayerSelected)">+</button>
                     </div>
                     <p align="center">{{ statPlayerSelected.duel }}</p>
 
@@ -301,8 +383,8 @@ stat.TwoPts --
                 <div class="ui segment column">
                     <div class="ui tiny header" align="center">Block realisé</div>
                     <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removeBlock"> - </button>
-                         <button class="ui button tiny" @click="addBlock">+</button>
+                        <button class="ui button tiny" @click="removeBlock(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addBlock(statPlayerSelected)">+</button>
                     </div>
                     <p align="center">{{ statPlayerSelected.block}}</p>
 
@@ -320,8 +402,8 @@ stat.TwoPts --
                     <div class="ui segment column">
                         <div class="ui header tiny">Tirs réussis</div>
                         <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removeTirReussis"> - </button>
-                         <button class="ui button tiny" @click="addTirReussis">+</button>
+                        <button class="ui button tiny" @click="removeTirReussis(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addTirReussis(statPlayerSelected)">+</button>
                     </div>
                     <p align="center">{{ statPlayerSelected.tirReussi }}</p>
 
@@ -330,8 +412,8 @@ stat.TwoPts --
                     <div class="ui segment column">
                     <div class="ui tiny header" align="center">Tirs ratés</div>
                     <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removeTirRate"> - </button>
-                         <button class="ui button tiny" @click="addTirRate">+</button>
+                        <button class="ui button tiny" @click="removeTirRate(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addTirRate(statPlayerSelected)">+</button>
                     </div>
                     <p align="center">{{ statPlayerSelected.tirRate }}</p>
 
@@ -342,8 +424,8 @@ stat.TwoPts --
                 <div class="ui segment column">
                     <div class="ui tiny header" align="center">Perte de ball</div>
                     <div class="groupBtn" v-if="selectedPlayer.name">
-                        <button class="ui button tiny" @click="removePerteBall"> - </button>
-                         <button class="ui button tiny" @click="addPerteBall">+</button>
+                        <button class="ui button tiny" @click="removePerteBall(statPlayerSelected)"> - </button>
+                         <button class="ui button tiny" @click="addPerteBall(statPlayerSelected)">+</button>
                     </div>
                     <p align="center">{{ statPlayerSelected.perteBall }}</p>
 
@@ -367,21 +449,23 @@ stat.TwoPts --
 
             <div class="column">
                 <div class="ui header huge">Equipe 2</div>
+                <div class="ui header huge" align="center">{{ scoreEquipe2 > 9 ? scoreEquipe2 : "0"+scoreEquipe2  }}</div>
+
                 Sur terrain:
-                <div class="ui list divided green segment " >
+                <div class="ui list divided green segment" >
                     
                     <div class="item" v-for="player in Equipe2.filter(e=>e.onSet == true)">
 
-                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" />
+                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" :refEquipe="2"/>
                     </div>
                 
             </div> 
             Sur les bancs:
-            <div class="ui list divided red segment ">
+            <div class="ui list divided red segment player ">
                     
                     <div class="item" v-for="player in Equipe2.filter(e=>e.onSet == false)">
 
-                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" />
+                        <JoueurMatch  :player="player" @set-player="getSelectedPlayer" :selectedId="selectedId" :isPlayed="playPause" :refEquipe="2"/>
                     </div>
                 
             </div>
@@ -395,9 +479,17 @@ stat.TwoPts --
 </template>
 
 <style>
+
+
+
     .groupBtn{
         display: flex;
         align-items: center;
+    }
+
+    .ui.list.divided.player{
+        height:350px;
+        overflow: auto;
     }
 
     

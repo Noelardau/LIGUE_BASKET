@@ -15,6 +15,9 @@ import Timer from "@/components/Timer.vue"
         type:String
     },isPlayed:{
         type: Boolean, default:false
+    },
+    refEquipe:{
+        type:Number
     }
 })
 
@@ -58,7 +61,7 @@ if(props.player.state == undefined) props.player.state = stat
     let select = (player)=>{
     
         selectedId.value= player
-        emit('setPlayer',props.player)
+        emit('setPlayer',props.player,props.refEquipe)
     }
 
 

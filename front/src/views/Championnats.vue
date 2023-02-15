@@ -39,17 +39,13 @@ let addTournoi = (newTournoi,message)=>{
     messageNtf.value = message
     if(message.success){
 
-//         newTournoi.createdAt = "00:00"
-//         newTournoi.updatedAt = "00:00"
 
-//         let trn = {...newTournoi,createdAt:new Date().getUTCDate(), updatedAt: new Date().getUTCDate()}
-// console.log(trn)
 console.log(newTournoi)
         axios.post("/api.tournoi/create",newTournoi).then(response=>{
             // console.log(response.data)
+            // tournois.value = [newTournoi,...tournois.value]
             location.reload()
             // newTournoi.RefTournoi = tournois.value.length
-            // tournois.value = [newTournoi,...tournois.value]
         })
         
 

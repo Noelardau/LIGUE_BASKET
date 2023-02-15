@@ -77,10 +77,10 @@ Categorie.init({
     }
 }, {sequelize}); 
 
-Categorie.hasMany(Joueur, {uniqueKey: false});
-Joueur.belongsTo(Categorie, {uniqueKey: false});
-Categorie.hasMany(RENCONTRE, {uniqueKey: false});
-RENCONTRE.belongsTo(Categorie, {uniqueKey: false});
+Categorie.hasMany(Joueur);
+Joueur.belongsTo(Categorie);
+Categorie.hasMany(RENCONTRE);
+RENCONTRE.belongsTo(Categorie);
 
 
 class EQUIPE extends Model {}
@@ -110,8 +110,8 @@ class EFFECTUER extends Model {}
 EFFECTUER.init({}, {sequelize});
 
 
-EQUIPE.hasMany(Joueur,{uniqueKey: false});
-Joueur.belongsTo(EQUIPE,{uniqueKey: false});
+EQUIPE.hasMany(Joueur);
+Joueur.belongsTo(EQUIPE);
 RENCONTRE.belongsToMany(EQUIPE, {through : EFFECTUER, uniqueKey: false});
 EQUIPE.belongsToMany(RENCONTRE, {through : EFFECTUER, uniqueKey: false});
 
@@ -187,7 +187,7 @@ Coach.init({
 EQUIPE.hasMany(Coach);
 Coach.belongsTo(EQUIPE);
 
-sequelize.sync({alter : true});
+sequelize.sync();
 
 // Exports 
 exports.Appartenir = APPARTENIR ;
