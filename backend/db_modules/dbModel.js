@@ -10,6 +10,8 @@ const sequelize = new Sequelize('LRBBHMStat', 'root', '', {
 });
 
 
+
+
 class Joueur extends Model {}
 Joueur.init({
     IDJoueur : {
@@ -77,10 +79,10 @@ Categorie.init({
     }
 }, {sequelize}); 
 
-Categorie.hasMany(Joueur);
-Joueur.belongsTo(Categorie);
-Categorie.hasMany(RENCONTRE);
-RENCONTRE.belongsTo(Categorie);
+Categorie.hasMany(Joueur, {uniqueKey: false});
+Joueur.belongsTo(Categorie, {uniqueKey: false});
+Categorie.hasMany(RENCONTRE, {uniqueKey: false});
+RENCONTRE.belongsTo(Categorie, {uniqueKey: false});
 
 
 class EQUIPE extends Model {}
@@ -110,8 +112,8 @@ class EFFECTUER extends Model {}
 EFFECTUER.init({}, {sequelize});
 
 
-EQUIPE.hasMany(Joueur);
-Joueur.belongsTo(EQUIPE);
+EQUIPE.hasMany(Joueur,{uniqueKey: false});
+Joueur.belongsTo(EQUIPE,{uniqueKey: false});
 RENCONTRE.belongsToMany(EQUIPE, {through : EFFECTUER, uniqueKey: false});
 EQUIPE.belongsToMany(RENCONTRE, {through : EFFECTUER, uniqueKey: false});
 
@@ -155,8 +157,9 @@ PARTICIPER.init({}, {sequelize});
 Tournoi.belongsToMany(EQUIPE,{through : PARTICIPER, uniqueKey : false});
 EQUIPE.belongsToMany(Tournoi, {through : PARTICIPER, uniqueKey : false});
 // Rencontre to tournoi
-Tournoi.hasMany(RENCONTRE);
-RENCONTRE.belongsTo(Tournoi);
+
+Tournoi.hasMany(RENCONTRE, {uniqueKey : false});
+RENCONTRE.belongsTo(Tournoi, {uniqueKey : false});
 
 
 class Coach extends Model {}

@@ -24,16 +24,23 @@ const { Tournoi, Participer, Equipe , Coach, Joueur, Categorie} = require("./dbM
 //     }
 // })
 
-const joueur = await Joueur.findOne({
-    where : {
-        IDJoueur : 1
-    } , 
-    include : [
-        { model : Equipe, attributes : ['NomEquipe']},
-        {model : Categorie, attributes : ['Label']}
-    ]
-})
+// const joueur = await Joueur.findOne({
+//     where : {
+//         IDJoueur : 1
+//     } , 
+//     include : [
+//         { model : Equipe, attributes : ['NomEquipe']},
+//         {model : Categorie, attributes : ['Label']}
+//     ]
+// })
 
-console.log(JSON.stringify(joueur, null, 4))
+const EquipeListe = await Equipe.findAll({ 
+    include : {
+        model : Coach, 
+        attributes : ['NomCoach','idCoach','ContactCoach']
+    }
+}) ; 
+
+console.log(JSON.stringify(EquipeListe, null, 4))
 })
 ()

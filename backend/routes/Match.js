@@ -1,5 +1,5 @@
 const express = require('express');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const { Rencontre, Equipe, Tournoi, Categorie, db, Joueur, Jouer } = require('../db_modules/dbModel');
 const router = express();
 
@@ -16,12 +16,13 @@ router.get('/', async function(req, res, next) {
                     {model : Categorie, attributes : ['Label']}, 
                     {
                         model : Joueur , 
-                        attributes : ['PrenomJoueur'] , 
+                        attributes : ['NomJoueur','PrenomJoueur'] , 
                         include: {
                             model : Equipe, 
                             attributes : ['NomEquipe','refEquipe']
                         }
-                    }
+                    },
+                    
                 ]
             })
 
@@ -51,8 +52,7 @@ router.post('/create', async function(req, res, next){
         //     LieuRencontre : req.body.LieuRencontre,
         //     CategorieIdCategorie : +req.body.CategorieIdCategorie
         // }) ; 
-        await db.query(`INSERT INTO Rencontre (createdAt, updatedAt, TorunoiRefTournoi, DateRencontre, HeureRencontre, LieuRencontre, CategorieIdCategorie) values ('0000-00-00 00:00:00','0000-00-00 00:00:00','${+req.body.TournoiRefTournoi}', '${req.body.DateRencontre}','${req.body.HeureRencontre}', '${req.body.LieuRencontre}', '${+req.body.CategorieIdCategorie}')`)
-        
+        await db.query(`INSERT INTO Rencontre (createdAt, updatedAt, TournoiRefTournoi, DateRencontre, HeureRencontre, LieuRencontre, CategorieIdCategorie) values ('2023-02-15 08:00:14','2023-02-15 08:00:14','${+req.body.TournoiRefTournoi}', '${req.body.DateRencontre}','${req.body.HeureRencontre}', '${req.body.LieuRencontre}', '${+req.body.CategorieIdCategorie}')`)
         // recuperer son Id
         const rencontreObject = await Rencontre.findOne({
             order: [['idRencontre', 'DESC']]

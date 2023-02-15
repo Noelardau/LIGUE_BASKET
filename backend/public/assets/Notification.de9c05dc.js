@@ -1,1 +1,0 @@
-import{o as s,c as a,a as t,t as c,n}from"./index.bb9eb9bc.js";const o={class:"content",align:"center"},l={props:{message:Object},setup(e){return(i,r)=>(s(),a("div",{class:n(["ui modal notification message tiny",e.message.success?"green":"red"])},[t("div",o,c(e.message.message),1)],2))}};export{l as _};

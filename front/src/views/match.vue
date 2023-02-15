@@ -99,8 +99,22 @@ export default {
         axios.get(`/api.rencontre?id=${this.$route.params.idMatch}`).then(response=>console.log(JSON.parse(response.data).Body))
 
         axios.post("/api.rencontre/create",{
-            
-        })
+   "DateRencontre" : "2022-12-21",
+    "HeureRencontre" : "13:00:00",
+    "LieuRencontre" : "Tournoi454",
+    "CategorieIdCategorie" : 1,
+    "TournoiRefTournoi":16,
+    "EquipeA" : {
+                "RefEquipe" : 1 , 
+                "ClassUp" : [1]
+            },
+    "EquipeB" : {
+                "RefEquipe" : 2, 
+                "ClassUp" : [1]
+            }  
+            }).then((response)=>{
+                console.log("match create:"+ response)
+            })
 
         
     },

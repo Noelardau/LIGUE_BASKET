@@ -1,5 +1,6 @@
 const express = require('express');
-const { Equipe, Coach, db } = require('../db_modules/dbModel');
+const { Op } = require('sequelize');
+const { Equipe, Coach, db, Jouer, Categorie } = require('../db_modules/dbModel');
 const router = express();
 
 router.get('/', async function(req, res, next) {
@@ -79,8 +80,11 @@ router.post('/create', async function(req, res, next){
 
 router.get('/allTeams', async function(req, res, next) {
     try {
-        const EquipeListe = await Equipe.findAll({
-            attributes : ['NomEquipe','Origine',  'RefEquipe']
+        const EquipeListe = await Equipe.findAll({ 
+            include : {
+                model : Coach, 
+                attributes : ['NomCoach','idCoach','ContactCoach']
+            }
         }) ; 
 
         const response = {
@@ -93,4 +97,47 @@ router.get('/allTeams', async function(req, res, next) {
         next(new Error(error.message))
     }
 })
+
+
+
+router.get('/allPlayersPerCategorie/:categorie', async function(req, res, next) {
+    if(req.query.RefEquipe) {
+        try {
+            const allPlayersInThisCategorie = await Jouer.findAll({
+                include : [
+                    {
+                        model : Categorie , 
+                        where : {
+                            Label : {[Op.like] : req.params.categorie}
+                        }
+                    } 
+                ] , 
+                where : {
+                    EQUIPERefEquipe : +req.query.RefEquipe
+                } , 
+                attributes : ['NomJoueur','NumJoueur', 'PrenomJoueur','IDJoueur','EQUIPERefEquipe' ]
+            })
+    
+            if(allPlayersInThisCategorie.length) {
+                const response = {
+                    'Status' : 'OK', 
+                    'Body' : JSON.parse(JSON.parse(JSON.stringify(allPlayersInThisCategorie , null , 4)))
+                }
+    
+                res.json(response);
+            } else {
+                const response = {
+                    Status : 'OK',
+                    Body : []
+                }
+            }
+        } catch (error) {
+            next(new Error(error.message))
+        }
+    } else {
+        throw new Error('RefEquipe must be provided in sueryString!')
+    }
+})
+
+
 module.exports = router;
