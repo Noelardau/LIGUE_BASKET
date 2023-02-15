@@ -44,14 +44,15 @@ router.post('/create', async function(req, res, next){
     if( req.body.DateRencontre && req.body.HeureRencontre && req.body.CategorieIdCategorie && req.body.LieuRencontre && req.body.TournoiRefTournoi) {
         await db.authenticate(); 
         // creer l'objet rencontre
-        const rencontre  =  await Rencontre.create({
-            TournoiRefTournoi : +req.body.TournoiRefTournoi , 
-            DateRencontre : req.body.DateRencontre,
-            HeureRencontre : req.body.HeureRencontre,
-            LieuRencontre : req.body.LieuRencontre,
-            CategorieIdCategorie : +req.body.CategorieIdCategorie
-        }) ; 
-
+        // const rencontre  =  await Rencontre.create({
+        //     TournoiRefTournoi : +req.body.TournoiRefTournoi , 
+        //     DateRencontre : req.body.DateRencontre,
+        //     HeureRencontre : req.body.HeureRencontre,
+        //     LieuRencontre : req.body.LieuRencontre,
+        //     CategorieIdCategorie : +req.body.CategorieIdCategorie
+        // }) ; 
+        await db.query(`INSERT INTO Rencontre (createdAt, updatedAt, TorunoiRefTournoi, DateRencontre, HeureRencontre, LieuRencontre, CategorieIdCategorie) values ('0000-00-00 00:00:00','0000-00-00 00:00:00','${+req.body.TournoiRefTournoi}', '${req.body.DateRencontre}','${req.body.HeureRencontre}', '${req.body.LieuRencontre}', '${+req.body.CategorieIdCategorie}')`)
+        
         // recuperer son Id
         const rencontreObject = await Rencontre.findOne({
             order: [['idRencontre', 'DESC']]

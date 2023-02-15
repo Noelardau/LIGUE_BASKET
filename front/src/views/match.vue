@@ -98,6 +98,10 @@ export default {
 
         axios.get(`/api.rencontre?id=${this.$route.params.idMatch}`).then(response=>console.log(JSON.parse(response.data).Body))
 
+        axios.post("/api.rencontre/create",{
+            
+        })
+
         
     },
     data(){
